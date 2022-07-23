@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+   <body>
+    {% include 'navbar/navbar.html' %}
+    {% block module_content %}
+    {% endblock module_content %}
+   </body>
+
+   {% include 'footer/footer.html' %}
+{% endblock content %}
