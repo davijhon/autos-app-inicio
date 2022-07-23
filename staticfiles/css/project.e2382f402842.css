@@ -1,0 +1,24 @@
+.login-body {
+    background-image: url("/static/src/bg/sep09.5e00066076eb.jpg");
+    /* background-size: auto; */
+    background-repeat: no-repeat;
+    background-size: 1600px 1000px;
+}
+
+.card-img-left {
+    width: 45%;
+    background: scroll center url("/static/src/bg/various-work-tools-worktop.22230663ee30.jpg");
+    background-size: cover;
+}
+
+.dot{
+    font-size: 6px !important;
+}
+
+#dot {
+    color: rgb(117, 15, 52);
+}
+
+.navbar-brand {
+    font-weight: 800;
+}
