@@ -11,6 +11,9 @@ urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('accounts/', include('django.contrib.auth.urls')),
 
+	# RESTful API FM ADMIN endpoints
+    path('api/clientes/', include('apps.clients.api.urls')),
+
 	# Local APPS
 	path('', include('apps.clients.urls', namespace='clients'))
 
