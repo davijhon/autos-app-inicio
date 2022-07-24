@@ -1,3 +1,13 @@
+
+#result-count,
+#page-count {
+    font-family: 'Mukta', sans-serif;
+    font-weight: 600;
+    font-size: 25px;
+    margin-top: 1.2rem;
+}
+
+
 .login-body {
     background-image: url("/static/src/bg/sep09.jpg");
     /* background-size: auto; */
@@ -21,4 +31,8 @@
 
 .navbar-brand {
     font-weight: 800;
+}
+
+.attachment-img {
+    filter: blur(1.5rem);
 }

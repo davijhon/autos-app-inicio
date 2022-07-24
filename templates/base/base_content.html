@@ -8,6 +8,9 @@
     {% include 'navbar/navbar.html' %}
     {% block module_content %}
     {% endblock module_content %}
+    <script>
+      var section_name = "{{ section_name }}"
+    </script>
    </body>
 
    {% include 'footer/footer.html' %}
