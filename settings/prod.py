@@ -1,6 +1,6 @@
 from .base import *
 import dj_database_url
-import boto3
+
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -40,16 +40,6 @@ AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
 
-
-
-# Initializate s3 Bucker
-s3 = boto3.resource(
-   's3',
-   aws_access_key_id=AWS_ACCESS_KEY_ID,
-   aws_secret_access_key=AWS_SECRET_ACCESS_KEY
-)
-
-bucket = s3.Bucket(AWS_STORAGE_BUCKET_NAME)
 
 
 AWS_S3_FILE_OVERWRITE = True

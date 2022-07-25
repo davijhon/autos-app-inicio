@@ -2,6 +2,7 @@ import os
 from io import BytesIO
 from django.conf import settings
 from django.core.files.base import ContentFile
+import boto3
 import botocore
 
 
@@ -10,9 +11,15 @@ from PIL import Image
 
 BASE_DIR = settings.BASE_DIR
 
-s3 = settings.s3
-bucket = settings.bucket
 
+# Initializate s3 Bucker
+s3 = boto3.resource(
+   's3',
+   aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+   aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY
+)
+
+bucket = s3.Bucket(settings.AWS_STORAGE_BUCKET_NAME)
 
 def get_file_obj(path, format, file_type='img'):
 	buffer = BytesIO()
