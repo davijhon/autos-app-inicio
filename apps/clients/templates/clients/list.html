@@ -16,6 +16,13 @@
                     <div class="card-header bg-primary fw-bold">
                       Filtros
                     </div>
+
+                    <div class="input-group input-group-sm mb-3 search-box">
+                      <span class="input-group-text" id="inputGroup-sizing-sm">Buscar</span>
+                      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                    </div>
+
+
                     <div class="card-body">
                         <div class="accordion" id="accordionPanelsStayOpenExample">
                             <div class="accordion-item">
@@ -98,28 +105,28 @@
                       </div>
                    </div>
                     <div class="card-body">
-                        <table class="table table-striped table-hover" data-height="450">
+                        <table class="table table-striped table-hover" data-toggle="table" data-height="450">
                             <thead>
                                 <tr>
-                                  <th scope="col">Nuermo de Cuenta</th>
-                                  <th scope="col">Username</th>
-                                  <th scope="col">Fecha de Alta</th>
-                                  <th scope="col">Codigo Zip</th>
-                                  <th scope="col">Dirección</th>
-                                  <th scope="col">Geo-latitud</th>
-                                  <th scope="col">Geo-longitud</th>
-                                  <th scope="col">IP</th>
-                                  <th scope="col">Auto</th>
-                                  <th scope="col">Auto: Modelo</th>
-                                  <th scope="col">Auto: Tipo</th>
-                                  <th scope="col">Auto: Color</th>
-                                  <th scope="col">Cantidad Compras Realizadas</th>
-                                  <th scope="col">Credict Card Number</th>
-                                  <th scope="col">Credit Card CCV</th>
-                                  <th scope="col">Color Favorito</th>
-                                  <th scope="col">Fecha de Nacimiento</th>
-                                  <th scope="col">Avatar</th>
-                                  <th scope="col">Foto: DNI</th>
+                                  <th >Nuermo de Cuenta</th>
+                                  <th  >Username</th>
+                                  <th  >Fecha de Alta</th>
+                                  <th  >Codigo Zip</th>
+                                  <th  >Dirección</th>
+                                  <th >Geo-latitud</th>
+                                  <th >Geo-longitud</th>
+                                  <th >IP</th>
+                                  <th >Auto</th>
+                                  <th >Auto: Modelo</th>
+                                  <th >Auto: Tipo</th>
+                                  <th >Auto: Color</th>
+                                  <th >Cantidad Compras Realizadas</th>
+                                  <th >Credict Card Number</th>
+                                  <th >Credit Card CCV</th>
+                                  <th >Color Favorito</th>
+                                  <th >Fecha de Nacimiento</th>
+                                  <th >Avatar</th>
+                                  <th >Foto: DNI</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -144,8 +151,8 @@
       $('.table').bootstrapTable({
         showFullscreen: false,
         stickyHeader: true,
-        stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
-        stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
+        stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 50),
+        stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 50),
 
       })
     </script>
