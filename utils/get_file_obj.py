@@ -23,9 +23,8 @@ def get_file_obj(path, format, file_type='img'):
 
 	else:
 		file_path = os.path.join(settings.STATIC_URL, path)
-		if os.path.exists(file_path):
-			if file_type == 'img':
-				file_obj = Image.open(file_path)
+		if file_type == 'img':
+			file_obj = Image.open(file_path)
 
 	file_obj.save(buffer, format=format)
 	buffer.seek(0)
