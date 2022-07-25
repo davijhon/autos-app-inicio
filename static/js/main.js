@@ -57,7 +57,7 @@ function create_pagination_control(res){
              </li>`;
     }
     ul += li;
- 
+
     $.each(page_links, function (id, page){
        if (page.is_break) {
           li2 = `<li class="page-item disabled">
@@ -134,7 +134,6 @@ function putTableData(res){
     $(".pagination-box").html("")
     $(".pagination-box").append(pagination)
 }
-
 
 function sendAjaxRequest(url, method, data, sender_form, load_data_table){
 
