@@ -38,30 +38,35 @@ class Command(BaseCommand):
             clients_records = ast.literal_eval(f.read())
 
         for cr in clients_records:
-            # c = random.choice([1, 2, 3, 4, 5])
-            # avatar_path = f"static/src/img/avatar{c}.png"
-            with transaction.atomic():
-                client = Cliente(
-                    fec_alta=convert_str_datetime_to_datetime_obj(cr['fec_alta']),
-                    user_name=cr['user_name'],
-                    codigo_zip=cr['codigo_zip'],
-                    credit_card_num=cr['codigo_zip'],
-                    credit_card_ccv=cr['credit_card_ccv'],
-                    cuenta_numero=cr['cuenta_numero'],
-                    direccion=cr['direccion'],
-                    geo_latitud=cr['geo_latitud'],
-                    geo_longitud=cr['geo_longitud'],
-                    color_favorito=cr['color_favorito'],
-                    # foto_dni=get_file_obj(f"static/src/img/480.jpg", "JPEG"),
-                    ip=cr['ip'],
-                    auto=cr['auto'],
-                    auto_modelo=cr['auto_modelo'],
-                    auto_tipo=cr['auto_tipo'],
-                    auto_color=cr['auto_color'],
-                    cantidad_compras_realizadas=cr['cantidad_compras_realizadas'],
-                    # avatar=get_file_obj(avatar_path, "PNG"),
-                    fec_birthday=convert_str_datetime_to_datetime_obj(cr['fec_birthday']),
-                )
-                client.save()
+            user_name = cr['user_name']
+
+            cli = Cliente.objects.get(user_name=user_name)
+            cli.credit_card_num = cr['credit_card_num']
+            cli.save()
+
+            # with transaction.atomic():
+            #     client = Cliente(
+            #         fec_alta=convert_str_datetime_to_datetime_obj(cr['fec_alta']),
+            #         user_name=cr['user_name'],
+            #         codigo_zip=cr['codigo_zip'],
+            #         credit_card_num=cr['codigo_zip'],
+            #         credit_card_ccv=cr['credit_card_ccv'],
+            #         cuenta_numero=cr['cuenta_numero'],
+            #         direccion=cr['direccion'],
+            #         geo_latitud=cr['geo_latitud'],
+            #         geo_longitud=cr['geo_longitud'],
+            #         color_favorito=cr['color_favorito'],
+            #         ip=cr['ip'],
+            #         auto=cr['auto'],
+            #         auto_modelo=cr['auto_modelo'],
+            #         auto_tipo=cr['auto_tipo'],
+            #         auto_color=cr['auto_color'],
+            #         cantidad_compras_realizadas=cr['cantidad_compras_realizadas'],
+            #         fec_birthday=convert_str_datetime_to_datetime_obj(cr['fec_birthday']),
+            #     )
+                
+            #     client.save()
+
+
 
         print("Done!")
