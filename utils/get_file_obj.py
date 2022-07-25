@@ -1,14 +1,17 @@
 import os
 from io import BytesIO
 from django.conf import settings
-from django.core.files import File
 from django.core.files.base import ContentFile
+import botocore
+
 
 from PIL import Image
 
 
 BASE_DIR = settings.BASE_DIR
 
+s3 = settings.s3
+bucket = settings.bucket
 
 
 def get_file_obj(path, format, file_type='img'):
@@ -22,9 +25,23 @@ def get_file_obj(path, format, file_type='img'):
 				file_obj = Image.open(file_path)
 
 	else:
-		file_path = os.path.join(settings.STATIC_URL, path)
-		if file_type == 'img':
-			file_obj = Image.open(file_path)
+		try:
+			s3.Object(settings.AWS_STORAGE_BUCKET_NAME, path).load()
+		except botocore.exceptions.ClientError as e:
+			if e.response['Error']['Code'] == '404':
+				print("Don't found path for that avatar")
+				pass
+			else:
+				print("Fatal error.")
+				pass
+		else:
+			f_object = bucket.Object(path)
+			object_as_streaming_body = f_object.get()["Body"]
+			object_as_bytes = object_as_streaming_body.read()
+			object_as_file_like = BytesIO(object_as_bytes)
+			if file_type == 'img':
+				file_obj = Image.open(object_as_file_like)
+
 
 	file_obj.save(buffer, format=format)
 	buffer.seek(0)
