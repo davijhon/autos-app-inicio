@@ -11,12 +11,12 @@ urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('accounts/', include('django.contrib.auth.urls')),
 
-	# RESTful API FM ADMIN endpoints
-    path('api/clientes/', include('apps.clients.api.urls')),
+	# RESTful API endpoints
+    path('api/renta-autos/', include('apps.renta_autos.api.urls')),
 
 	# Local APPS
-	path('', include('apps.clients.urls', namespace='clients'))
-
+	path('', include('apps.pages.urls', namespace='pages')),
+	path('renta-autos/', include('apps.renta_autos.urls', namespace='renta_autos')),
 
 ]
 

@@ -57,7 +57,7 @@ function create_pagination_control(res){
              </li>`;
     }
     ul += li;
- 
+
     $.each(page_links, function (id, page){
        if (page.is_break) {
           li2 = `<li class="page-item disabled">
@@ -120,8 +120,8 @@ function putTableData(res){
                 row += "<td>"+b.credit_card_ccv+"</td>"
                 row += "<td>"+b.color_favorito+"</td>"
                 row += "<td>"+b.fec_birthday+"</td>"
-                row += "<td><img class='attachment-img' src="+b.avatar+" alt='user Avatar' width='50' height='50'></td>"
-                row += "<td><img class='attachment-img' src="+b.foto_dni+" alt='dni photo' width='50' height='50'></td>"
+                row += "<td><img class='attachment-img' src="+b.avatar+" alt='user Avatar' width='80' height='80'></td>"
+                row += "<td><img class='attachment-img' src="+b.foto_dni+" alt='dni photo' width='80' height='80'></td>"
 
             tbody.append($(row))
 
@@ -134,7 +134,6 @@ function putTableData(res){
     $(".pagination-box").html("")
     $(".pagination-box").append(pagination)
 }
-
 
 function sendAjaxRequest(url, method, data, sender_form, load_data_table){
 
@@ -156,7 +155,6 @@ function sendAjaxRequest(url, method, data, sender_form, load_data_table){
                 // // get_datatable(get_list_url(1));
                 // changeStatus(null)
             } else if (method === "GET" && load_data_table === true){ 
-                console.log(response)
                 current_page = parseInt(response.links.current);
                 putTableData(response);
                 

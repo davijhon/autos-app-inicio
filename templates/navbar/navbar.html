@@ -1,6 +1,6 @@
 <nav class="navbar shadow navbar-expand-lg bg-light">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'clients:clients_list_section' %}">AUTO <span style="color: rgb(117, 15, 52)">A</span>PP <span class="dot"><i id="dot" class="fa fa-circle fa-1x" aria-hidden="true"></i></span></a>
+        <a class="navbar-brand" href="{% url 'pages:home' %}">AUTO <span style="color: rgb(117, 15, 52)">A</span>PP <span class="dot"><i id="dot" class="fa fa-circle fa-1x" aria-hidden="true"></i></span></a>
         <div class="collapse navbar-collapse" id="navbarScroll">
             <ul class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                 {% if user.is_authenticated %}

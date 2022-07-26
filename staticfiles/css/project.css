@@ -7,6 +7,12 @@
     margin-top: 1.2rem;
 }
 
+.maku-text {
+    font-family: 'Mukta', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+}
+
 
 .login-body {
     background-image: url("/static/src/bg/sep09.jpg");
@@ -34,5 +40,9 @@
 }
 
 .attachment-img {
-    filter: blur(1.5rem);
+    filter: blur(4px);
+}
+
+tbody {
+    font-size: 12px;
 }

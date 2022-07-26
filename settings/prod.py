@@ -48,12 +48,12 @@ AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
 AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
 PUBLIC_MEDIA_LOCATION = 'media'
 MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/"
-DEFAULT_FILE_STORAGE = 'apps.clients.storages.ClientAvatarDNIStorage'
+DEFAULT_FILE_STORAGE = 'apps.renta_autos.storages.RentaAutoClientsAvatarDNIStorage'
 
 AWS_LOCATION = 'static'
 STATICFILES_DIRS = (
    os.path.join(BASE_DIR, 'static'),
-   os.path.join(BASE_DIR, 'apps/clients/static'),
+   os.path.join(BASE_DIR, 'apps/renta_autos/static'),
 )
 
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

@@ -18,7 +18,10 @@ DJANGO_APPS = [
 ]
 
 LOCAL_APPS = [
-    'apps.clients'
+    'apps.pages',
+
+    # "Lineas de Negocias" as an apps.
+    'apps.renta_autos',
 ]
 
 THIRD_PARTY = [
@@ -91,7 +94,7 @@ USE_TZ = True
 
 
 # Auth Backend Settings
-LOGIN_REDIRECT_URL = 'clients:clients_list_section'
+LOGIN_REDIRECT_URL = 'pages:home'
 LOGOUT_REDIRECT_URL = 'login'
 
 

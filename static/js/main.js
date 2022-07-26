@@ -155,7 +155,6 @@ function sendAjaxRequest(url, method, data, sender_form, load_data_table){
                 // // get_datatable(get_list_url(1));
                 // changeStatus(null)
             } else if (method === "GET" && load_data_table === true){ 
-                console.log(response)
                 current_page = parseInt(response.links.current);
                 putTableData(response);
                 
