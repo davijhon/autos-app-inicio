@@ -165,6 +165,7 @@ $(document).on('change', 'input[name="fec_alta"]', function(e){
 
 
 $('input[name="fec_alta"]').daterangepicker({
+    autoUpdateInput: false,
     locale: {
        format: 'YYYY-MM-DD',
        "applyLabel": "Aplicar",
@@ -193,4 +194,3 @@ $('input[name="fec_alta"]').daterangepicker({
    ],
    }
 });
-$('input[name="fec_alta"]').val("")
