@@ -1,7 +1,28 @@
-from pyexpat import model
+import uuid
+
 from django.db import models
 from mirage import fields
+from django.db.models.aggregates import Count
+from random import randint
 
+
+
+class BaseRandomManager(models.Manager):
+    # Used only to populate the db.
+    def random(self):
+        count = self.aggregate(count=Count('id'))['count']
+        random_index = randint(0, count - 1)
+        return self.all()[random_index]
+
+
+class RentaModelManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().select_related('auto')
+
+
+class AutoModelManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().prefetch_related('modelo', 'tipo', 'color')
 
 
 def upload_to(instance, filename):
@@ -11,6 +32,7 @@ def upload_to(instance, filename):
     )
 
 class Cliente(models.Model):
+    id_uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     fec_alta = models.DateTimeField(auto_now_add=True)
     user_name = models.CharField(max_length=150)
     codigo_zip = models.CharField(max_length=50)
@@ -25,7 +47,11 @@ class Cliente(models.Model):
     ip = models.CharField(max_length=15)
     avatar = models.ImageField(upload_to=upload_to, blank=True, null=True)
     fec_birthday = models.DateField()
-    
+    compras_realizadas = models.IntegerField(default=0, blank=True, null=True)
+
+    objects = models.Manager() # The default manager.
+    random_obj = BaseRandomManager()
+
 
     def __str__(self):
         return f"{self.cuenta_numero} - {self.user_name}"
@@ -35,12 +61,12 @@ class Cliente(models.Model):
         verbose_name_plural = 'Clientes'
         ordering = ['fec_alta']
  
-    def cantidad_compras_realizadas(self):
-        pass
-
 
 class AutoModelo(models.Model):
     modelo = models.CharField(max_length=100)
+
+    objects = models.Manager() # The default manager.
+    random_obj = BaseRandomManager()
 
     def __str__(self):
         return self.modelo
@@ -49,12 +75,20 @@ class AutoModelo(models.Model):
 class AutoTipo(models.Model):
     tipo = models.CharField(max_length=100)
 
+    objects = models.Manager() # The default manager.
+    random_obj = BaseRandomManager()
+
+
     def __str__(self):
         return self.tipo
 
 
 class AutoColor(models.Model):
     color = models.CharField(max_length=100)
+
+    objects = models.Manager() # The default manager.
+    random_obj = BaseRandomManager()
+
 
     def __str__(self):
         return self.color
@@ -66,7 +100,10 @@ class Auto(models.Model):
     tipo = models.ForeignKey(AutoTipo, on_delete=models.CASCADE)
     color = models.ForeignKey(AutoColor, on_delete=models.CASCADE)
 
+    objects = AutoModelManager() # The default manager.
+    random_obj = BaseRandomManager()
 
+    
     def __str__(self):
         return self.auto_name
 
@@ -75,6 +112,12 @@ class Renta(models.Model):
     auto = models.ForeignKey(Auto, on_delete=models.CASCADE)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='rentas')
 
+    objects = RentaModelManager()
+
+    class Meta:
+        verbose_name = 'Renta'
+        verbose_name_plural = 'Rentas Realizadas'
+        ordering = ['id']
 
     def __str__(self):
         return "Renta: {auto} - por: {cli}".format(

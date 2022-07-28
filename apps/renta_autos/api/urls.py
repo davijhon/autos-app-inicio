@@ -2,10 +2,12 @@ from django.urls import path
 
 
 from .views import (
-    ClienteListAPIView,
+    ClienteRentaAutosListAPIView,
+    ClienteDetailAPIView,
 )
 
 
 urlpatterns = [
-    path('list', ClienteListAPIView.as_view(), name='clientes_list'),
+    path('<uuid>/', ClienteDetailAPIView.as_view(), name='cliente_detail'),
+    path('list', ClienteRentaAutosListAPIView.as_view(), name='clientes_list'),
 ]

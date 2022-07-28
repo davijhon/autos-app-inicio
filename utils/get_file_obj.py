@@ -13,13 +13,14 @@ BASE_DIR = settings.BASE_DIR
 
 
 # Initializate s3 Bucker
-s3 = boto3.resource(
-   's3',
-   aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-   aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY
-)
+if settings.DEBUG == False:
+	s3 = boto3.resource(
+	's3',
+	aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+	aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY
+	)
 
-bucket = s3.Bucket(settings.AWS_STORAGE_BUCKET_NAME)
+	bucket = s3.Bucket(settings.AWS_STORAGE_BUCKET_NAME)
 
 def get_file_obj(path, format, file_type='img'):
 	buffer = BytesIO()

@@ -58,3 +58,47 @@ tbody {
 .fa {
     color: rgba(0,0,0,.15);
 }
+
+.fa-undo{
+    color: #ffff !important;
+}
+
+.img-circle {
+    border-radius: 50%;
+}
+
+.profile-user-img {
+    border: 3px solid #adb5bd;
+    margin: 0 auto;
+    padding: 3px;
+    width: 100px;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.skeleton-text {
+    background: hsl(200, 20%, 80%);
+    width: 50%;
+    height: 0.7rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.skeleton-text-2 {
+    background: hsl(200, 20%, 80%);
+    width: 25%;
+    height: 0.7rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.skeleton-text-3 {
+    background: hsl(200, 20%, 80%);
+    width: 35%;
+    height: 0.7rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.25rem;
+}

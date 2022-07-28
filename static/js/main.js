@@ -19,10 +19,80 @@ const csrftoken = getCookie('csrftoken');
 var ws_scheme = window.location.protocol
 var path = ws_scheme + '//' + window.location.host + "/";
 var current_page = 1;
+var size = 10;
 let timer, timeoutVal = 1000;
 
 
+function editRecordDetail(id){
+    url = path
+    url += `renta-autos/${id}/edit/`;
+ 
+    $.ajax({
+       method: "GET",
+       url: url,
+       success: function(data){
+        console.log(data)
+        
+        $('#DetailModal .modal-body').html("")
+        $('#DetailModal .modal-body').html(data.html_content)
 
+        // if ($('body').find('#DetailModal').length === 0){
+        //     // $('body').append(detail_modal)
+        //     $('#DetailModal .modal-body').html("")
+        //     $('#DetailModal .modal-body').html(data.html_content)
+        //     // $('#DetailModal').modal('show')
+        // } else {
+        //     $('#DetailModal').remove()
+        //     $('body').append(detail_modal)
+        //     $('#DetailModal').modal('show')
+        // }
+ 
+       },
+       error: function(response){
+          console.log("Error Ajax function.")
+          console.log(response)
+          Swal.fire({
+             title: 'Error!',
+             html: response['error'],
+             icon: 'error'
+          });
+       }
+    })
+}
+
+
+function showDetailModal(id){
+    url = path
+    url += `api/renta-autos/${id}/`;
+ 
+    $.ajax({
+       method: "GET",
+       url: url,
+       success: function(data){
+
+        detail_modal = putDataToDetailModal(data)
+
+        if ($('body').find('#DetailModal').length === 0){
+            $('body').append(detail_modal)
+            $('#DetailModal').modal('show')
+        } else {
+            $('#DetailModal').remove()
+            $('body').append(detail_modal)
+            $('#DetailModal').modal('show')
+        }
+ 
+       },
+       error: function(response){
+          console.log("Error Ajax function.")
+          console.log(response)
+          Swal.fire({
+             title: 'Error!',
+             html: response['error'],
+             icon: 'error'
+          });
+       }
+    })
+}
 
 function changeStatus(action){
 
@@ -97,37 +167,35 @@ function create_pagination_control(res){
  
 }
 
+function truncateString(str, num) {
+    // If the length of str is less than or equal to num
+    // just return str--don't truncate it.
+    if (str.length <= num) {
+      return str
+    }
+    // Return str truncated with '...' concatenated to the end of str.
+    return str.slice(0, num) + '...'
+}
+
 function putTableData(res){
-    $("table tbody").html("")
-    tbody = $("table tbody")
+    $(`#table_${section_name} tbody`).html("")
+    tbody = $(`#table_${section_name} tbody`)
 
     if (res['results'].length > 0){
         $.each(res['results'], function (a, b){
+            var id = b.id_uuid
             var row = "<tr><td>"+b.cuenta_numero+"</td>"
-                row += "<td>"+b.user_name+"</td>"
+                row += `<td><a href='javascript:void(0);' onclick='showDetailModal("${id}")'>`+b.user_name+`</a></td>`
                 row += "<td>"+b.fec_alta+"</td>"
                 row += "<td>"+b.codigo_zip+"</td>"
-                row += "<td>"+b.direccion+"</td>"
-                row += "<td>"+b.geo_latitud+"</td>"
-                row += "<td>"+b.geo_longitud+"</td>"
-                row += "<td>"+b.ip+"</td>"
-                row += "<td>"+b.auto+"</td>"
-                row += "<td>"+b.auto_modelo+"</td>"
-                row += "<td>"+b.auto_tipo+"</td>"
-                row += "<td>"+b.auto_color+"</td>"
-                row += "<td>"+b.cantidad_compras_realizadas+"</td>"
-                row += "<td>"+b.credit_card_num+"</td>"
-                row += "<td>"+b.credit_card_ccv+"</td>"
+                row += "<td>"+b.compras_realizadas+"</td>"
                 row += "<td>"+b.color_favorito+"</td>"
                 row += "<td>"+b.fec_birthday+"</td>"
-                row += "<td><img class='attachment-img' src="+b.avatar+" alt='user Avatar' width='80' height='80'></td>"
-                row += "<td><img class='attachment-img' src="+b.foto_dni+" alt='dni photo' width='80' height='80'></td>"
-
             tbody.append($(row))
 
         });
     } else {
-        $("table").html("No se encontraron resultados.")
+        $(`#table_${section_name} tbody`).html("No se encontraron resultados.")
     }
 
     pagination = create_pagination_control(res)
@@ -155,6 +223,7 @@ function sendAjaxRequest(url, method, data, sender_form, load_data_table){
                 // // get_datatable(get_list_url(1));
                 // changeStatus(null)
             } else if (method === "GET" && load_data_table === true){ 
+                console.log(response)
                 current_page = parseInt(response.links.current);
                 putTableData(response);
                 
@@ -186,8 +255,15 @@ function sendAjaxRequest(url, method, data, sender_form, load_data_table){
 }
 
 function get_list_url(page, query){
+    // TODO: Improve this logic, better change 
+    // the url on server-side??
+    if (section_name === 'renta_autos'){
+        var section = 'renta-autos';
+    }
+
+
     url = path
-    url += `api/${section_name}/list?page=${page}`;
+    url += `api/${section}/list?page=${page}&size=${size}`;
 
     if (query){
         query = "&" + query
@@ -200,19 +276,24 @@ function get_datatable(url){
     sendAjaxRequest(url, "GET", null, null, true)
 }
 
+$('.cleaner').click(function(){
+    $(`#${section_name}FilterForm`).trigger("reset");
+    get_datatable(get_list_url(1))
+});
+
 
 
 $(document).on("click", ".page-link", function (e) {
     e.preventDefault();
     let url = $(this).attr("data-url");
     
-    $('body,html').animate({
-        scrollTop: 0
-     }, 400);
+    // $('body,html').animate({
+    //     scrollTop: 0
+    //  }, 400);
 
     get_datatable(url);
 })
 
-if (section_name === 'clientes'){
+if (section_name === 'renta_autos'){
     get_datatable(get_list_url(current_page));
 }
