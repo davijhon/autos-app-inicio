@@ -37,7 +37,7 @@ function putDataToDetailModal(data){
                     <div class="row justify-content-end mb-4">
                         <div class="col-md-2">
                             <button type="button" onclick='editRecordDetail("${id}")' class="btn btn-sm btn-warning"><i class='fas fa-edit'></i></button>
-                            <button type="button" class="btn btn-sm btn-danger"><i class='fas fa-trash-alt'></i></button>
+                            <button type="button" class="btn btn-sm btn-danger delete-button"><i class='fas fa-trash-alt'></i></button>
                         </div>
                     </div>
                     <div class="row container">
@@ -45,6 +45,7 @@ function putDataToDetailModal(data){
                             <div class="card">
                                 <div class="card-header bg-success">
                                     <h3 class="card-title">${data.user_name}</h3>
+                                    <div class="d-none user-id" id="${id}"></div>
                                 </div>
                                 
                                 <div class="card-body">
@@ -152,6 +153,75 @@ $(document).on("click", ".submit-button", function(e){
 
 });
 
+$(document).on('click', '.delete-button', function(e){
+    var id = $(".user-id").attr('id')
+    url = path + `renta-autos/${id}/delete/`;
+ 
+    $.confirm({
+       theme: 'bootstrap',
+       title: '¡¡¡Atencion!!!',
+       icon: 'fas fa-exclamation-circle',
+       alignMiddle: true,
+       type: 'red',
+       content: '¿¿Está seguro que desea eliminar a este Cliente?? Realizar esta acción será completamente irreversible!!',
+       typeAnimated: true,
+       buttons: {
+          Confirmar: {
+             btnClass: 'btn-danger',
+             action: function(){     
+                // $('.group-buttons').hide()
+                // $('#hidden-spinner').show()
+ 
+                $.ajax({
+                   type: "POST",
+                   url: url,
+                   headers: {
+                      "X-CSRFToken": csrftoken,
+                   },
+                   dataType: 'json',
+                success: function (response) {
+ 
+                   if (response.status == 202) {
+                        $("#DetailModal").modal("hide")
+                        get_datatable(get_list_url(current_page));
+                        
+                      Swal.fire({
+                         position: 'center',
+                         icon: 'success',
+                         title: response['message'],
+                         showConfirmButton: false,
+                         timer: 5500
+                     })
+                      
+                   } else if (response.status == 405 || response.status == 500){
+                      Swal.fire({
+                         title: 'Error!',
+                         html: response['error'],
+                         icon: 'error'
+                      });
+                   }
+ 
+                },
+                error: function (response) {
+                   console.log("Error Ajax function.")
+                   Swal.fire({
+                      title: 'Error!',
+                      html: response['error'],
+                      icon: 'error'
+                   });
+                }
+             });
+ 
+ 
+             }
+         },
+           Cancelar: function () {
+ 
+           },
+       }
+   });
+ 
+ })
 
 /*  Bootstrap-Table plugin */
 $('table').bootstrapTable({

@@ -1,9 +1,12 @@
 from django.views.generic import TemplateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from django.db import transaction
 
 
 from utils.utils import get_secure_nro_cta_mode
@@ -99,3 +102,24 @@ class RentaAutoClienteEditView(LoginRequiredMixin, View):
 				"message": "Há ocurrido un error interno, comuniquese con el desarrollador."
 			})
 
+@login_required
+def renta_auto_cliente_delete(request, uuid):
+	if request.method == 'POST':
+		data = dict()
+		with transaction.atomic():
+			try:
+				instance = get_object_or_404(Cliente, id_uuid=uuid)
+				instance.delete()
+				data["status"] = 202
+				data["message"] = "Cliente eliminado exitosamente."
+				data["errors"] = ""
+				return JsonResponse(data)
+			except Exception as e:
+				return JsonResponse({
+					'status': 500,
+					'error': str(e)
+				})
+	return JsonResponse({
+		"status": 405,
+		"error": "Invalid Method"
+	})

@@ -184,7 +184,6 @@ function putTableData(res){
     $(".pagination-box").append(pagination)
 }
 
-
 function displayFormMessage(res, sender_form){
     var status_code = res.status;
     var errors = res.errors;
