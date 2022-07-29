@@ -151,21 +151,8 @@ $('table').bootstrapTable({
 
 })
 
-$(document).on('change', 'input[name="fec_alta"]', function(e){
-    window.clearTimeout(timer);
-    timer = window.setTimeout(() => {
-       var form_data = $("#renta_autosFilterForm").serialize();
-       let params = new URLSearchParams(form_data);
-
-       if (params.get('fec_alta') !== ''){
-          get_datatable(get_list_url(1, form_data))
-       }
-    }, timeoutVal);
-});
-
-
 $('input[name="fec_alta"]').daterangepicker({
-    autoUpdateInput: false,
+    // autoUpdateInput: false,
     locale: {
        format: 'YYYY-MM-DD',
        "applyLabel": "Aplicar",
@@ -194,3 +181,18 @@ $('input[name="fec_alta"]').daterangepicker({
    ],
    }
 });
+$('input[name="fec_alta"]').val("")
+
+$(document).on('change', 'input[name="fec_alta"]', function(e){
+    window.clearTimeout(timer);
+    timer = window.setTimeout(() => {
+       var form_data = $("#renta_autosFilterForm").serialize();
+       let params = new URLSearchParams(form_data);
+
+       if (params.get('fec_alta') !== ''){
+          get_datatable(get_list_url(1, form_data))
+       }
+    }, timeoutVal);
+});
+
+
