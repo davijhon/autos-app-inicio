@@ -183,7 +183,7 @@ $(document).on('click', '.delete-button', function(e){
  
                    if (response.status == 202) {
                         $("#DetailModal").modal("hide")
-                        get_datatable(get_list_url(current_page));
+                        get_datatable(get_list_url(1));
                         
                       Swal.fire({
                          position: 'center',
