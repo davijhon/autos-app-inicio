@@ -194,4 +194,4 @@ $(document).on('change', 'input[name="fec_alta"]', function(e){
     }, timeoutVal);
 });
 
-
+$(`#${section_name}FilterForm`).trigger("reset");

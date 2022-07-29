@@ -13,10 +13,11 @@ class ClienteRentAutoEditForm(forms.ModelForm):
 
 	fec_birthday = forms.DateField(
 		widget=forms.DateInput(
-			attrs={'class': 'form-control form-control-sm', 'type': 'date'}), 
-			label="Fecha de Nacimiento:",
-			required=False,
-			)
+			attrs={'class': 'form-control form-control-sm', 'type': 'date'},
+			format=('%Y-%m-%d') ),
+		label="Fecha de Nacimiento:",
+		required=False,
+		)
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)

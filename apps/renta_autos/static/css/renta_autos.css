@@ -55,3 +55,7 @@ img {
     overflow-y: scroll;
     height: 15rem;
 }
+
+.fa-arrows-alt {
+    color: #fff;
+}
