@@ -82,7 +82,10 @@ class RentaAutosModulesSectionView(LoginRequiredMixin, TemplateView):
 
 class RentaAutoClienteEditView(PermissionRequiredMixin, LoginRequiredMixin, View):
 	form_class = ClienteRentAutoEditForm
-
+	permission_required = (
+		'renta_autos.change_cliente',
+		'renta_autos.delete_cliente'
+	)
 
 	def dispatch(self, *args, **kwargs):
 		user = self.request.user
