@@ -105,7 +105,7 @@ function putDataToDetailModal(data){
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer justify-content-center">
                 </div>
             </div>
             </div>
@@ -142,13 +142,21 @@ $("#id_query" ).on("keypress",function() {
  
 });
 
+$(document).on("click", ".submit-button", function(e){
+    e.preventDefault()
+    var data = new FormData(document.getElementById("RentaAutoEditClientForm"));
+    id = $(".user-id").attr('id')
+
+    submitForm("RentaAutoEditClientForm", "POST", data, id)
+
+
+});
+
 
 /*  Bootstrap-Table plugin */
 $('table').bootstrapTable({
     showFullscreen: true,
     stickyHeader: true,
-
-
 })
 
 $('input[name="fec_alta"]').daterangepicker({
