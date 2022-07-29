@@ -164,15 +164,24 @@ function putTableData(res){
 
     if (res['results'].length > 0){
         $.each(res['results'], function (a, b){
-            var id = b.id_uuid
-            var row = "<tr><td>"+b.cuenta_numero+"</td>"
-                row += `<td><a href='javascript:void(0);' onclick='showDetailModal("${id}")'>`+b.user_name+`</a></td>`
-                row += "<td>"+b.fec_alta+"</td>"
-                row += "<td>"+b.codigo_zip+"</td>"
-                row += "<td>"+b.compras_realizadas+"</td>"
-                row += "<td>"+b.color_favorito+"</td>"
-                row += "<td>"+b.fec_birthday+"</td>"
-            tbody.append($(row))
+
+            if (section_name === 'renta_autos') {
+                var id = b.id_uuid
+                var row = "<tr><td>"+b.cuenta_numero+"</td>"
+                    row += `<td><a href='javascript:void(0);' onclick='showDetailModal("${id}")'>`+b.user_name+`</a></td>`
+                    row += "<td>"+b.fec_alta+"</td>"
+                    row += "<td>"+b.codigo_zip+"</td>"
+                    row += "<td>"+b.compras_realizadas+"</td>"
+                    row += "<td>"+b.color_favorito+"</td>"
+                    row += "<td>"+b.fec_birthday+"</td>"
+                tbody.append($(row))
+            } else if (section_name === 'auditoria'){
+                var row = "<tr><td>"+b.history_date+"</td>"
+                row += "<td>"+b.user_name+"</td>"
+                row += "<td>"+b.changed_by+"</td>"
+                row += "<td>"+b.history_change_reason+"</td>"
+                tbody.append($(row)) 
+            }
 
         });
     } else {
@@ -292,6 +301,8 @@ function get_list_url(page, query){
     // the url on server-side??
     if (section_name === 'renta_autos'){
         var section = 'renta-autos';
+    } else if (section_name === 'auditoria'){
+        var section = 'renta-autos/auditoria'
     }
 
 
@@ -331,6 +342,6 @@ $(document).on("click", ".page-link", function (e) {
     get_datatable(url);
 })
 
-if (section_name === 'renta_autos'){
+if (section_name === 'renta_autos' || section_name === 'auditoria'){
     get_datatable(get_list_url(current_page));
 }

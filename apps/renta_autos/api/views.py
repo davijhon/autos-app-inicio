@@ -1,3 +1,4 @@
+from multiprocessing.spawn import is_forking
 import re
 from datetime import datetime
 
@@ -21,6 +22,7 @@ from apps.renta_autos.models import Renta, Cliente
 from .serializers import (
 	ClienteRentaAutoSerializer,
 	ClienteDetailSerializer,
+	AuditClienteRentaAutoSerializer
 )
 
 
@@ -103,6 +105,19 @@ class ClienteRentaAutosListAPIView(ListAPIView):
 					compras_realizadas__lte=max_compra)
 
 		return queryset
+
+
+class RentaAutosAuditListAPIView(ListAPIView):
+	serializer_class = AuditClienteRentaAutoSerializer
+	pagination_class = CustomPagination
+	permission_classes = [IsAuthenticated]
+
+
+	def get_queryset(self):
+		queryset = Cliente.history.all()
+
+		return queryset
+	
 
 
 class ClienteDetailAPIView(APIView):

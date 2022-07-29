@@ -30,6 +30,16 @@ class RentaAutosClientsListSectionView(LoginRequiredMixin, TemplateView):
 		return ctx
 
 
+class RentaAutosClientsAuditoriaListView(LoginRequiredMixin, TemplateView):
+	template_name = 'renta_autos/clientes/auditoria.html'
+
+
+	def get_context_data(self, **kwargs):
+		ctx =  super().get_context_data(**kwargs)
+		ctx['section_name'] = 'auditoria'
+
+		return ctx
+
 
 class RentaAutosModulesSectionView(LoginRequiredMixin, TemplateView):
 	template_name = 'base/module.html'
@@ -39,6 +49,7 @@ class RentaAutosModulesSectionView(LoginRequiredMixin, TemplateView):
 		ctx =  super().get_context_data(**kwargs)
 		ctx['module_name'] = 'Renta de Autos'
 		ctx['client_list_url'] = reverse('renta_autos:renta_autos_clients_list')
+		ctx['auditoria_url'] = reverse('renta_autos:renta_autos_clients_auditoria_list')
 		ctx['section_name'] = 'renta_autos'
 
 		return ctx

@@ -10,6 +10,25 @@ from utils.utils import get_secure_nro_cta_mode
 
 
 
+class AuditClienteRentaAutoSerializer(serializers.ModelSerializer):
+
+	class Meta:
+		model = Cliente
+		fields = (
+			"user_name",
+		)
+
+	def to_representation(self, instance):
+		rep = super(AuditClienteRentaAutoSerializer, self).to_representation(instance)
+
+		rep['user_name'] = f"{get_secure_nro_cta_mode(instance.cuenta_numero)} - {rep['user_name'] }"
+		rep['history_date'] = instance.history_date
+		rep['history_change_reason'] = instance.history_change_reason
+		rep['changed_by'] = instance.changed_by.username
+
+		return rep
+
+
 class AutoSerializer(serializers.ModelSerializer):
 
 	class Meta:

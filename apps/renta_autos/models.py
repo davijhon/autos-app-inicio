@@ -4,6 +4,10 @@ from django.db import models
 from mirage import fields
 from django.db.models.aggregates import Count
 from random import randint
+from simple_history.models import HistoricalRecords
+
+
+from utils.utils import get_secure_nro_cta_mode
 
 
 
@@ -48,13 +52,25 @@ class Cliente(models.Model):
     avatar = models.ImageField(upload_to=upload_to, blank=True, null=True)
     fec_birthday = models.DateField()
     compras_realizadas = models.IntegerField(default=0, blank=True, null=True)
+    history = HistoricalRecords()
+    changed_by = models.ForeignKey('auth.User', on_delete=models.CASCADE, null=True, blank=True)
+
 
     objects = models.Manager() # The default manager.
     random_obj = BaseRandomManager()
 
 
     def __str__(self):
-        return f"{self.cuenta_numero} - {self.user_name}"
+        return f"{get_secure_nro_cta_mode(self.cuenta_numero)} - {self.user_name}"
+
+
+    @property
+    def _history_user(self):
+        return self.changed_by
+
+    @_history_user.setter
+    def _history_user(self, value):
+        self.changed_by = value
 
     class Meta:
         verbose_name = 'Cliente'

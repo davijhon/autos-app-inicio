@@ -16,23 +16,8 @@ DATABASES = {
     )
 }
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-# STATIC_URL = '/static/'
-# STATICFILES_DIRS = (
-#    os.path.join(BASE_DIR, 'static'),
-#    os.path.join(BASE_DIR, 'apps/clients/static'),
-# )
-
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-
-# WHITENOISE
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-
+ADMIN_URL = config("ADMIN_URL")
 
 
 #============= STATIC & MEDIA BACKEND AWS S3================#
@@ -58,6 +43,12 @@ STATICFILES_DIRS = (
 
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+
+
+
+#============= SECURITY SETTINGS ================#
+CSRF_COOKIE_HTTPONLY = True
+X_FRAME_OPTIONS = "DENY"
 
 
 

@@ -8,7 +8,7 @@ from django.urls import path, include
 
 urlpatterns = [
 	# Django APPS
-	path('admin/', admin.site.urls),
+	path(settings.ADMIN_URL, admin.site.urls),
 	path('accounts/', include('django.contrib.auth.urls')),
 
 	# RESTful API endpoints
