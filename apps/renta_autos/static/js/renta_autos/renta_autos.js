@@ -203,10 +203,10 @@ $(document).on('click', '.delete-button', function(e){
  
                 },
                 error: function (response) {
-                   console.log("Error Ajax function.")
+                //    console.log("Error Ajax function.")
                    Swal.fire({
                       title: 'Error!',
-                      html: response['error'],
+                      html: response['message'],
                       icon: 'error'
                    });
                 }
