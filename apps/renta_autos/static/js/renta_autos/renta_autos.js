@@ -193,10 +193,10 @@ $(document).on('click', '.delete-button', function(e){
                          timer: 5500
                      })
                       
-                   } else if (response.status == 405 || response.status == 500){
+                   } else if (response.status == 405 || response.status == 500 || response.status == 403){
                       Swal.fire({
                          title: 'Error!',
-                         html: response['error'],
+                         html: response['message'],
                          icon: 'error'
                       });
                    }

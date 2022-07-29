@@ -32,10 +32,18 @@ function editRecordDetail(id){
        url: url,
        success: function(data){
         
-        $('#DetailModal .modal-body').html("")
-        $('#DetailModal .modal-body').html(data.html_content)
-        $('#DetailModal .modal-footer').append('<button class="btn btn-success submit-button" type="submit" >Guardar Cambios</button>')
-        
+        if (data.status !== 403){
+            $('#DetailModal .modal-body').html("")
+            $('#DetailModal .modal-body').html(data.html_content)
+            $('#DetailModal .modal-footer').append('<button class="btn btn-success submit-button" type="submit" >Guardar Cambios</button>')
+        } else {
+            Swal.fire({
+                title: 'Error!',
+                html: data['message'],
+                icon: 'error'
+            });
+        }
+
        },
        error: function(response){
           console.log("Error Ajax function.")

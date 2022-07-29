@@ -1,13 +1,13 @@
 from django.views.generic import TemplateView, View
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required
 
 from django.urls import reverse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.db import transaction
-
+from django.contrib import messages
 
 from utils.utils import get_secure_nro_cta_mode
 
@@ -18,9 +18,24 @@ from .models import Cliente
 
 
 
-class RentaAutosClientsListSectionView(LoginRequiredMixin, TemplateView):
+class RentaAutosClientsListSectionView(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
 	template_name = 'renta_autos/list.html'
+	permission_required = (
+		'renta_autos.view_cliente',
+	)
 
+	def dispatch(self, *args, **kwargs):
+		user = self.request.user
+
+		permissions = [
+			'renta_autos.view_cliente',
+
+		]
+
+		if not user.has_perms(permissions):
+			messages.warning(self.request, "No cuenta con los permisos necesarios para entrar a esta sección")
+			return redirect("renta_autos:renta_autos_module")
+		return super(RentaAutosClientsListSectionView, self).dispatch(*args, **kwargs)
 
 	def get_context_data(self, **kwargs):
 		ctx =  super().get_context_data(**kwargs)
@@ -30,9 +45,19 @@ class RentaAutosClientsListSectionView(LoginRequiredMixin, TemplateView):
 		return ctx
 
 
-class RentaAutosClientsAuditoriaListView(LoginRequiredMixin, TemplateView):
+class RentaAutosClientsAuditoriaListView(PermissionRequiredMixin, LoginRequiredMixin, TemplateView):
 	template_name = 'renta_autos/clientes/auditoria.html'
+	permission_required = (
+		'renta_autos.view_historicalcliente',
+	)
 
+	def dispatch(self, *args, **kwargs):
+		user = self.request.user
+
+		if not user.has_perm('renta_autos.view_historicalcliente'):
+			messages.warning(self.request, "No cuenta con los permisos necesarios para entrar a esta sección")
+			return redirect("renta_autos:renta_autos_module")
+		return super(RentaAutosClientsAuditoriaListView, self).dispatch(*args, **kwargs)
 
 	def get_context_data(self, **kwargs):
 		ctx =  super().get_context_data(**kwargs)
@@ -55,8 +80,25 @@ class RentaAutosModulesSectionView(LoginRequiredMixin, TemplateView):
 		return ctx
 
 
-class RentaAutoClienteEditView(LoginRequiredMixin, View):
+class RentaAutoClienteEditView(PermissionRequiredMixin, LoginRequiredMixin, View):
 	form_class = ClienteRentAutoEditForm
+
+
+	def dispatch(self, *args, **kwargs):
+		user = self.request.user
+
+		permissions = [
+			'renta_autos.change_cliente',
+			'renta_autos.delete_cliente'
+		]
+
+		if not user.has_perms(permissions):
+			return JsonResponse({
+				"status": 403,
+				"message": "No cuenta con los permisos necesarios para realizar esta sección.",
+				"errors": "PermissionDenied",
+			})
+		return super(RentaAutoClienteEditView, self).dispatch(*args, **kwargs)
 
 	def get(self, *args, **kwargs):
 		uuid = self.kwargs.get('uuid', None)
@@ -119,6 +161,21 @@ class RentaAutoClienteEditView(LoginRequiredMixin, View):
 @login_required
 def renta_auto_cliente_delete(request, uuid):
 	if request.method == 'POST':
+		user = request.user
+
+		permissions = [
+			'renta_autos.change_cliente',
+			'renta_autos.delete_cliente'
+		]
+
+		if not user.has_perms(permissions):
+			return JsonResponse({
+				"status": 403,
+				"message": "No cuenta con los permisos necesarios para realizar esta sección.",
+				"errors": "PermissionDenied",
+			})
+
+
 		data = dict()
 		with transaction.atomic():
 			try:
