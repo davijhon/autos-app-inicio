@@ -37,3 +37,11 @@ def add_post_save_reason_to_history_for_auditory(sender, instance, created, **kw
       update_change_reason(instance, "Registro Creado")
    else:
       update_change_reason(instance, "Registro editado.")
+
+
+
+@on_transaction_commit
+@receiver(post_delete, sender=Cliente)
+def add_post_delete_reason_to_history_for_auditory(sender, instance, **kwargs):
+
+   update_change_reason(instance, "Registro Eliminado")

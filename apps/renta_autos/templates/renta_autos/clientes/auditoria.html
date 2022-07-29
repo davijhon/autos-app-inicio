@@ -9,9 +9,15 @@
 
 
 {% block module_content %}
-
-		<section class="client-list-container" id="client-auditoria-section">			
+		<section class="client-list-container" id="client-auditoria-section">		
 			<div class="container">
+				<nav aria-label="breadcrumb mt-3 mb-5">
+					<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'pages:home' %}">Home</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'renta_autos:renta_autos_module' %}">Renta Autos Modulo</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Auditoria</li>
+					</ol>
+				</nav>	
 				<div class="row">
 					<div class="col-12">
 						{% csrf_token %}

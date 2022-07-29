@@ -94,7 +94,10 @@ class RentaAutoClienteEditView(LoginRequiredMixin, View):
 				form = self.form_class(self.request.POST, instance=instance)
 
 				if form.is_valid():
-					form.save()
+					instance = form.save(commit=False)
+					instance.changed_by = self.request.user
+					instance.save()
+
 					data['status'] = 200
 					data['id'] = instance.id_uuid
 					data['message'] = "Cliente editado exitosamente."
@@ -120,6 +123,7 @@ def renta_auto_cliente_delete(request, uuid):
 		with transaction.atomic():
 			try:
 				instance = get_object_or_404(Cliente, id_uuid=uuid)
+				instance.changed_by = request.user
 				instance.delete()
 				data["status"] = 202
 				data["message"] = "Cliente eliminado exitosamente."
