@@ -84,15 +84,16 @@ class RentaAutoClienteEditView(PermissionRequiredMixin, LoginRequiredMixin, View
 	form_class = ClienteRentAutoEditForm
 	permission_required = (
 		'renta_autos.change_cliente',
-		'renta_autos.delete_cliente'
+		'renta_autos.delete_cliente',
 	)
 
 	def dispatch(self, *args, **kwargs):
 		user = self.request.user
 
 		permissions = [
+			'renta_autos.view_cliente',
 			'renta_autos.change_cliente',
-			'renta_autos.delete_cliente'
+			'renta_autos.delete_cliente',
 		]
 
 		if not user.has_perms(permissions):
@@ -167,8 +168,9 @@ def renta_auto_cliente_delete(request, uuid):
 		user = request.user
 
 		permissions = [
+			'renta_autos.view_cliente',
 			'renta_autos.change_cliente',
-			'renta_autos.delete_cliente'
+			'renta_autos.delete_cliente',
 		]
 
 		if not user.has_perms(permissions):
