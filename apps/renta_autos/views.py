@@ -41,7 +41,7 @@ class RentaAutosModulesSectionView(LoginRequiredMixin, TemplateView):
         return ctx
 
 
-class RentaAutoClienteEditView(View):
+class RentaAutoClienteEditView(LoginRequiredMixin, View):
     form_class = ClienteRentAutoEditForm
 
     def get(self, *args, **kwargs):

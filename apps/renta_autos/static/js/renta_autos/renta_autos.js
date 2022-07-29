@@ -152,7 +152,6 @@ $('table').bootstrapTable({
 })
 
 $('input[name="fec_alta"]').daterangepicker({
-    // autoUpdateInput: false,
     locale: {
        format: 'YYYY-MM-DD',
        "applyLabel": "Aplicar",
