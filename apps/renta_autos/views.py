@@ -99,7 +99,7 @@ class RentaAutoClienteEditView(PermissionRequiredMixin, LoginRequiredMixin, View
 		if not user.has_perms(permissions):
 			return JsonResponse({
 				"status": 403,
-				"message": "No cuenta con los permisos necesarios para realizar esta sección.",
+				"message": "No cuenta con los permisos necesarios para realizar esta acción.",
 				"errors": "PermissionDenied",
 			})
 		return super(RentaAutoClienteEditView, self).dispatch(*args, **kwargs)
@@ -176,7 +176,7 @@ def renta_auto_cliente_delete(request, uuid):
 		if not user.has_perms(permissions):
 			return JsonResponse({
 				"status": 403,
-				"message": "No cuenta con los permisos necesarios para realizar esta sección.",
+				"message": "No cuenta con los permisos necesarios para realizar esta acción.",
 				"errors": "PermissionDenied",
 			})
 
